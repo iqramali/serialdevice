@@ -20,13 +20,13 @@ Then the port can be treated as as a regular file:
  echo Test > /dev/ttyS1
 ```
 
-Use of ioctl() in C
+### Use of ioctl() in C
 
 The ioctl() calls (I/O Control) are generic calls that can be used to communicate with wide variety of hardware devices on a Linux system. Simple example how to use ioct() calls to set and clear the RTS and DTR pins .
 
 Syntax: ``` ioct(fd,command,argument);```
 
-Example using ioctl.
+#### H3 Example using ioctl.
 
 ```
 #include <sys/ioctl.h> //ioctl() call defenitions
