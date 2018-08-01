@@ -1,3 +1,6 @@
+""" This simple python program read any bytes received on the serial device and print on stdout 
+in hex format """
+
 import sys
 import serial
  
