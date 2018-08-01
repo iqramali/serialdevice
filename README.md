@@ -19,3 +19,27 @@ Then the port can be treated as as a regular file:
  stty -F /dev/ttyS1 115200
  echo Test > /dev/ttyS1
 ```
+
+Use of ioctl() in C
+
+The ioctl() calls (I/O Control) are generic calls that can be used to communicate with wide variety of hardware devices on a Linux system. Simple example how to use ioct() calls to set and clear the RTS and DTR pins .
+
+Syntax: ``` ioct(fd,command,argument);```
+
+Example using ioctl.
+
+```
+#include <sys/ioctl.h> //ioctl() call defenitions
+main()
+{
+   int fd;
+   fd = open("/dev/ttyUSB0",O_RDWR | O_NOCTTY );
+  
+   int RTS_flag;
+   RTS_flag = TIOCM_RTS;
+   ioctl(fd,TIOCMBIS,&RTS_flag);//Set RTS pin
+   getchar();
+   ioctl(fd,TIOCMBIC,&RTS_flag);//Clear RTS pin
+   close(fd);
+}
+```
