@@ -26,7 +26,7 @@ The ioctl() calls (I/O Control) are generic calls that can be used to communicat
 
 Syntax: ``` ioct(fd,command,argument);```
 
-#### H3 Example using ioctl.
+#### Example using ioctl.
 
 ```
 #include <sys/ioctl.h> //ioctl() call defenitions
