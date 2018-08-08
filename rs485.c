@@ -82,11 +82,10 @@ int main (void) {
         return 0;
       }
     }
+  
   	/* Close the device when finished: */
-  	if (close (fd) < 0) {
-  		/* Error handling. See errno. */
+  	if (close (fd) < 0)
       fprintf(stderr, "Failed to close the fd\n");
-  	}
 
   return 0;
 }
