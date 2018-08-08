@@ -1,11 +1,16 @@
 # serialdevice
-serial device programming C and Python
+
+serial device, RS485 programming C and Python
+
+All the program here are compiled only in Linux environment.
 
 Comiple the C code using gcc.
 terminal.c program reads the response from serial device with certain timeout period that 0.5 seconds, this timeout is configurable.
 
 ```
 gcc -g terminal.c
+gcc -g rs485.c
+
 ```
 
 Run the python script to read the serial device line.
