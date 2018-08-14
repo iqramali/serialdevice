@@ -17,14 +17,14 @@
 
 int main (void) {
     
-   	struct serial_rs485 rs485conf;
+    struct serial_rs485 rs485conf;
 
-  	/* Open your specific device (e.g., /dev/mydevice): */
-  	int fd = open (SERIAL_DEVICE, O_RDWR);
-  	if (fd < 0) {
-  		/* Error handling. See errno. */
+    /* Open your specific device (e.g., /dev/mydevice): */
+    int fd = open (SERIAL_DEVICE, O_RDWR);
+    if (fd < 0) {
+        /* Error handling. See errno. */
         assert("Failed to open the serial device\n");
-  	}
+    }
 
     /* Don't forget to read first the current state of the RS-485 options with ioctl.
     If You don't do this, You will destroy the rs485conf.delay_rts_last_char_tx
