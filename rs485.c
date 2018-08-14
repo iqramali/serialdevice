@@ -21,6 +21,7 @@ int main (void) {
 
     /* Open your specific device (e.g., /dev/mydevice): */
     int fd = open (SERIAL_DEVICE, O_RDWR);
+  
     if (fd < 0) {
         /* Error handling. See errno. */
         assert("Failed to open the serial device\n");
@@ -30,9 +31,9 @@ int main (void) {
     If You don't do this, You will destroy the rs485conf.delay_rts_last_char_tx
     parameter which is automatically calculated by the driver when You opens the
     port device. */
-    if (ioctl (fd, TIOCGRS485, &rs485conf) < 0) {
-           fprintf(stderr, "TIOCGRS485 ioctl not supported.\n");
-    }
+    if (ioctl (fd, TIOCGRS485, &rs485conf) < 0)
+        fprintf(stderr, "TIOCGRS485 ioctl not supported.\n");
+  
   	/* Enable RS485 mode: */
   	rs485conf.flags |= SER_RS485_ENABLED;
 
@@ -54,9 +55,8 @@ int main (void) {
   	/* Set this flag if you want to receive data even whilst sending data */
   	rs485conf.flags |= SER_RS485_RX_DURING_TX;
 
-  	if (ioctl (fd, TIOCSRS485, &rs485conf) < 0) {
+  	if (ioctl (fd, TIOCSRS485, &rs485conf) < 0)
         fprintf(stderr, "TIOCSRS485 ioctl not supported.\n");
-    }
 
   	/* Use read() and write() syscalls here... */
     int w_ret, r_ret;
@@ -90,7 +90,7 @@ int main (void) {
   
   	/* Close the device when finished: */
   	if (close (fd) < 0)
-      fprintf(stderr, "Failed to close the fd\n");
+        fprintf(stderr, "Failed to close the fd\n");
 
   return 0;
 }
