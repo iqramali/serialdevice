@@ -23,7 +23,7 @@ int main (void) {
   	int fd = open (SERIAL_DEVICE, O_RDWR);
   	if (fd < 0) {
   		/* Error handling. See errno. */
-      assert("Failed to open the serial device\n");
+        assert("Failed to open the serial device\n");
   	}
 
     /* Don't forget to read first the current state of the RS-485 options with ioctl.
@@ -31,7 +31,7 @@ int main (void) {
     parameter which is automatically calculated by the driver when You opens the
     port device. */
     if (ioctl (fd, TIOCGRS485, &rs485conf) < 0) {
-           printf("Error: TIOCGRS485 ioctl not supported.\n");
+           fprintf(stderr, "TIOCGRS485 ioctl not supported.\n");
     }
   	/* Enable RS485 mode: */
   	rs485conf.flags |= SER_RS485_ENABLED;
@@ -55,7 +55,7 @@ int main (void) {
   	rs485conf.flags |= SER_RS485_RX_DURING_TX;
 
   	if (ioctl (fd, TIOCSRS485, &rs485conf) < 0) {
-        printf("Error: TIOCSRS485 ioctl not supported.\n");
+        fprintf(stderr, "TIOCSRS485 ioctl not supported.\n");
     }
 
   	/* Use read() and write() syscalls here... */
