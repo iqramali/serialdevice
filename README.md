@@ -25,6 +25,13 @@ Then the port can be treated as as a regular file:
  echo Test > /dev/ttyS1
 ```
 
+To set extra delays for TXEN/RTS signal before and after transmitted packet using stty
+
+```
+ stty -F $SERIAL_DEV rs485delaybefore 100
+ stty -F $SERIAL_DEV rs485delayafter 100
+```
+
 ### Use of ioctl() in C
 
 The ioctl() calls (I/O Control) are generic calls that can be used to communicate with wide variety of hardware devices on a Linux system. Simple example how to use ioct() calls to set and clear the RTS and DTR pins .
