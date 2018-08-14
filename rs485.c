@@ -1,14 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <stdbool.h>
-#include <string.h>
-#include <stdbool.h>
-#include <errno.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <termios.h>
-#include <time.h>
 #include <assert.h>
 
 #include <sys/ioctl.h>
@@ -21,7 +16,8 @@
 #define SERIAL_DEVICE "/dev/ttyUSB0"
 
 int main (void) {
-  /* Include definition for RS485 ioctls: TIOCGRS485 and TIOCSRS485 */
+    
+   	struct serial_rs485 rs485conf;
 
   	/* Open your specific device (e.g., /dev/mydevice): */
   	int fd = open (SERIAL_DEVICE, O_RDWR);
@@ -30,8 +26,13 @@ int main (void) {
       assert("Failed to open the serial device\n");
   	}
 
-  	struct serial_rs485 rs485conf;
-
+    /* Don't forget to read first the current state of the RS-485 options with ioctl.
+    If You don't do this, You will destroy the rs485conf.delay_rts_last_char_tx
+    parameter which is automatically calculated by the driver when You opens the
+    port device. */
+    if (ioctl (fd, TIOCGRS485, &rs485conf) < 0) {
+           printf("Error: TIOCGRS485 ioctl not supported.\n");
+    }
   	/* Enable RS485 mode: */
   	rs485conf.flags |= SER_RS485_ENABLED;
 
@@ -53,11 +54,15 @@ int main (void) {
   	/* Set this flag if you want to receive data even whilst sending data */
   	rs485conf.flags |= SER_RS485_RX_DURING_TX;
 
-  	ioctl (fd, TIOCSRS485, &rs485conf);
+  	if (ioctl (fd, TIOCSRS485, &rs485conf) < 0) {
+        printf("Error: TIOCSRS485 ioctl not supported.\n");
+    }
 
   	/* Use read() and write() syscalls here... */
     int w_ret, r_ret;
     uint8_t buf[256];
+
+    fcntl(fd, F_SETFL, 0);
 
     /*Write the data in the serial device */
     w_ret = write(fd, buf, sizeof(buf));
