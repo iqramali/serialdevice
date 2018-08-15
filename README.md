@@ -1,6 +1,24 @@
-# serialdevice
+# Serialdevice
 
-serial device, RS485 programming C and Python
+Serial device, RS485 programming C and Python
+
+## Introduction to RS485 
+
+RS485 uses the same wires to send and receive, you need to set a microcontroller output to the apropriate mode to command the RS485 transceiver to work in the aprorpriate direction.
+
+### Hardware:
+
+* RS485 requires a RS485 tranceiver chip to be connected to an USART that is not level converted to RS232. 
+* In general USART1 is ```/dev/ttyS*```. 
+* Recommended to use the USART's RTS line to control transmitter enable since RTS is used by the serial kernel driver in RS485 mode.
+
+### Software
+* We just treat rs485 as normal serial device, the main difference is that the RS485 tranceiver needs to be considered correctly.
+* Software should either be aware of that or should disable the receiver during transmit.
+
+#### How to enable or disable RS485 mode?
+* Using ```linux/serial.h```. RTS is not used for any handshake in RS485 mode.
+* RTS is used to enable or disbale the transmitter an is handled by the serial driver automatically.
 
 All the program here are compiled only in Linux environment.
 
@@ -10,23 +28,20 @@ terminal.c program reads the response from serial device with certain timeout pe
 ```
 gcc -g terminal.c
 gcc -g rs485.c
-
 ```
 
 Run the python script to read the serial device line.
 
-How to access the serial device from the Linux user space?
+### How to access the serial device from the Linux user space?
 
 From Linux user space, one can use the command line utility stty to configure the serial speed. 
 Then the port can be treated as as a regular file:
-
 ```
  stty -F /dev/ttyS1 115200
  echo Test > /dev/ttyS1
 ```
 
 To set extra delays for TXEN/RTS signal before and after transmitted packet using stty
-
 ```
  stty -F $SERIAL_DEV rs485delaybefore 100
  stty -F $SERIAL_DEV rs485delayafter 100
