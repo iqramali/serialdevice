@@ -67,6 +67,14 @@ main()
    ioctl(fd,TIOCMBIS,&RTS_flag);//Set RTS pin
    getchar();
    ioctl(fd,TIOCMBIC,&RTS_flag);//Clear RTS pin
+   //Checking the condition of DTR
+     ioctl(fd, TIOCMGET, &serial);
+   if (serial & TIOCM_DTR)
+       puts("TIOCM_DTR is not set");
+   else
+       puts("TIOCM_DTR is set");
    close(fd);
 }
 ```
+Footnote: TIOCMBIS (const int *argp) set the indicated modem bits.
+
