@@ -68,7 +68,7 @@ main()
    getchar();
    ioctl(fd,TIOCMBIC,&RTS_flag);//Clear RTS pin
    //Checking the condition of DTR
-     ioctl(fd, TIOCMGET, &serial);
+   ioctl(fd, TIOCMGET, &serial);
    if (serial & TIOCM_DTR)
        puts("TIOCM_DTR is not set");
    else
